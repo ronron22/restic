@@ -40,13 +40,10 @@ case $1 in
 	clean) 
 		restic forget --prune --keep-daily 30
 	;;
-	settag)
-		restic -r $REPO snapshots | awk '!/--|snapshots|Directory/ {print$1" "$NF}' > $tmp_file
-
-		while read line ; do
-		       	if echo $line | awk '/lib/ {print$1 ; err = 1} END {print$1 ; exit err}' &> /dev/null ; then
-				echo $line
-			fi	
-		done < $tmp_file	
+	list)
+		restic -r $REPO snapshots 
 	;;
+	*)
+		echo "Gruik !!!"
+	;;	
 esac	
