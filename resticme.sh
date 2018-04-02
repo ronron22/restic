@@ -5,6 +5,7 @@ set -x
 # set repo : REPO=rest:http://backup:pass@truc:8000/sauvegarde
 # set password RESTIC_PASSWORD=pass
 
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin
 restic_credential_file=/root/.restic-credential.sh
 ops="-x"
 script_name=$(basename ${0/.sh/})
@@ -23,8 +24,6 @@ lock() {
 }
 
 lock || exit 1
-
-restic=/usr/local/bin/restic
 
 # loading credential if exist
 if [ -f $restic_credential_file ] ; then
@@ -67,14 +66,14 @@ case $1 in
 		done	
 	;;	
 	clean) 
-		$restic -r $REPO forget unlock
-		$restic -r $REPO forget --prune --keep-daily 30
+		restic -r $REPO forget unlock
+		restic -r $REPO forget --prune --keep-daily 30
 	;;
 	check)
-		$restic -r $REPO check
+		restic -r $REPO check
 	;;
 	list)
-		if ! $restic -r $REPO snapshots &> $tmp_file ; then
+		if ! restic -r $REPO snapshots &> $tmp_file ; then
 			echo "There a corruption problem, read $tmp_file please"
 			exit 2
 		else

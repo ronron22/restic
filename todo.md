@@ -1,1 +1,1 @@
-écrire un make d'installation 
+écrire un makefile d'installation 
