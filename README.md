@@ -2,7 +2,12 @@
 
 https://jpmens.net/2017/08/22/my-backup-software-of-choice-restic/
 
-Utilisez les tags pour marquer les backups
+conseils :
+* utilisez les tags pour marquer les backups
+
+dans mon cas, les deux mots de passe s'expliquent ainsi :
+* un pour le chiffrement/déchiffrement des données
+* l'autre pour l'accès web Rest server
 
 ## Restic
 
@@ -83,6 +88,7 @@ dans une autre console
  mount -t fuse
 restic on /mnt type fuse (ro,nosuid,nodev,relatime,user_id=0,group_id=0)
 ```
+
 ### Les tags
 
 ## Rest server
@@ -98,3 +104,18 @@ https://github.com/restic/rest-server
 ```bash
 docker exec -it rest_server sh
 ```
+
+## FàQ
+
+### lock 
+
+```bash
+~/restic# restic -r $REPO check
+password is correct
+create exclusive lock for repository
+Fatal: unable to create lock in backend: repository is already locked by PID 7334 on localhost by root (UID 0, GID 0)
+lock was created at 2018-04-01 23:18:51 (1h8m44.395671802s ago)
+storage ID 6b3d5fa2
+~# restic -r $REPO unlock
+```
+
