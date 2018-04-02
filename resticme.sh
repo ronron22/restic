@@ -24,6 +24,8 @@ lock() {
 
 lock || exit 1
 
+restic=/usr/local/bin/restic
+
 # loading credential if exist
 if [ -f $restic_credential_file ] ; then
 	source $restic_credential_file
@@ -61,17 +63,18 @@ tag_and_hash_dict=( ["lib-cyrus"]="/var/lib/cyrus" ["spool-cyrus"]="/var/spool/c
 case $1 in
 	start)
 		for key in ${!tag_and_hash_dict[@]} ; do
-			restic -r $REPO backup $ops --tag $key ${tag_and_hash_dict[$key]}
+			$restic -r $REPO backup $ops --tag $key ${tag_and_hash_dict[$key]}
 		done	
 	;;	
 	clean) 
-		restic forget --prune --keep-daily 30
+		$restic -r $REPO forget unlock
+		$restic -r $REPO forget --prune --keep-daily 30
 	;;
 	check)
-		restic -r $REPO check
+		$restic -r $REPO check
 	;;
 	list)
-		if ! restic -r $REPO snapshots &> $tmp_file ; then
+		if ! $restic -r $REPO snapshots &> $tmp_file ; then
 			echo "There a corruption problem, read $tmp_file please"
 			exit 2
 		else
