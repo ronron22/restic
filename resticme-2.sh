@@ -40,8 +40,17 @@ case $1 in
 	clean) 
 		restic forget --prune --keep-daily 30
 	;;
+	check)
+		restic -r $REPO check
+	;;
 	list)
-		restic -r $REPO snapshots 
+		if ! restic -r $REPO snapshots &> $tmp_file ; then
+			echo "There a corruption problem, read $tmp_file please"
+			exit 2
+		else
+			echo "Check is ok"
+
+		fi	
 	;;
 	*)
 		echo "Gruik !!!"
