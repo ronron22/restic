@@ -1,0 +1,3 @@
+0 2 * * * root /root/restic/resticme.sh start &> /tmp/sauvegarde.log 
+0 3 * * * root /root/restic/resticme.sh clean &>> /tmp/sauvegarde.log 
+0 4 * * * root /root/restic/resticme.sh check &>> /tmp/sauvegarde.log
