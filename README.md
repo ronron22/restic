@@ -89,7 +89,7 @@ dans une autre console
 restic on /mnt type fuse (ro,nosuid,nodev,relatime,user_id=0,group_id=0)
 ```
 
-### Les tags
+### Les tags
 
 ## Rest server
 
@@ -107,7 +107,7 @@ docker exec -it rest_server sh
 
 ## FàQ
 
-### lock 
+### lock
 
 ```bash
 ~/restic# restic -r $REPO check
