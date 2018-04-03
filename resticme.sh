@@ -73,8 +73,8 @@ case $1 in
 		restic -r $REPO check
 	;;
 	list)
-		if ! restic -r $REPO snapshots &> $tmp_file ; then
-			echo "There a corruption problem, read $tmp_file please"
+		if ! restic -r $REPO snapshots ; then
+			echo "Unable to list snapshots"
 			exit 2
 		else
 			echo "Check is ok"
