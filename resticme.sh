@@ -1,6 +1,6 @@
 #!/bin/bash -
 
-set -x
+set +x
 
 # set repo : REPO=rest:http://backup:pass@truc:8000/sauvegarde
 # set password RESTIC_PASSWORD=pass
@@ -82,6 +82,6 @@ case $1 in
 		fi	
 	;;
 	*)
-		echo "Gruik !!!"
+		echo "Usage is start|clean|check|list"
 	;;	
 esac	
