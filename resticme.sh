@@ -40,7 +40,7 @@ clean_exit() {
 }
 
 logme() {
-	logger
+	logger -t $script_name $1
 }
 
 function log_and_exec () {
@@ -55,9 +55,16 @@ trap clean_exit 2 3 9
 
 declare -A tag_and_hash_dict 
 
-tag_and_hash_dict=( ["lib-cyrus"]="/var/lib/cyrus" ["spool-cyrus"]="/var/spool/cyrus" ["www"]="/var/www"\
-       	["lib-knot"]="/var/lib/knot" ["lib-ldap"]="/var/lib/ldap" ["lib-mysql"]="/var/lib/mysql" ["etc"]="/etc"\
-       	["synapse-config"]="/usr/local/synapse/homeserver.yaml" ["restic-config"]="/root/restic/resticme.sh" )
+tag_and_hash_dict=( ["lib-cyrus"]="/var/lib/cyrus" ["spool-cyrus"]="/var/spool/cyrus" ["www"]="/var/www" ["lib-knot"]="/var/lib/knot" ["lib-ldap"]="/var/lib/ldap" ["lib-mysql"]="/var/lib/mysql" ["etc"]="/etc" ["synapse-config"]="/usr/local/synapse/homeserver.yaml" ["restic-config"]="/root/restic/resticme.sh" )
+
+list_snapshot() {
+    if ! restic -r $REPO snapshots ; then
+        echo "Unable to list snapshots"
+        exit 2
+    else
+        echo "Check is ok"
+    fi	
+}
 
 case $1 in
 	start)
@@ -73,14 +80,17 @@ case $1 in
 		restic -r $REPO check
 	;;
 	list)
-		if ! restic -r $REPO snapshots ; then
-			echo "Unable to list snapshots"
-			exit 2
-		else
-			echo "Check is ok"
-
-		fi	
+        list_snapshot
 	;;
+    checkbackup)
+        my_date="$(date +%F)"
+        nb_snapshot_backuped=$(list_snapshot | grep $my_date | wc -l)
+        if (( $nb_snapshot_backuped != ${#tag_and_hash_dict[@]} )) ; then
+            logme "some snapshot seem missed on date of $my_date : $nb_snapshot_backuped for ${#tag_and_hash_dict[@]}"
+        else
+           logme "backup for $my_date is ok"
+        fi 
+    ;;
 	*)
 		echo "Usage is start|clean|check|list"
 	;;	
