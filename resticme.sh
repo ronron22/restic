@@ -57,12 +57,12 @@ declare -A tag_and_hash_dict
 
 tag_and_hash_dict=( ["lib-cyrus"]="/var/lib/cyrus" ["spool-cyrus"]="/var/spool/cyrus" ["www"]="/var/www"\
        	["lib-knot"]="/var/lib/knot" ["lib-ldap"]="/var/lib/ldap" ["lib-mysql"]="/var/lib/mysql" ["etc"]="/etc"\
-       	["synapse-config"]="/usr/local/synapse/homeserver.yaml" )
+       	["synapse-config"]="/usr/local/synapse/homeserver.yaml" ["restic-config"]="/root/restic/resticme.sh" )
 
 case $1 in
 	start)
 		for key in ${!tag_and_hash_dict[@]} ; do
-			$restic -r $REPO backup $ops --tag $key ${tag_and_hash_dict[$key]}
+			restic -r $REPO backup $ops --tag $key ${tag_and_hash_dict[$key]}
 		done	
 	;;	
 	clean) 
