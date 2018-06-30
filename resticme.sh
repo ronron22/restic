@@ -91,7 +91,10 @@ case $1 in
            logme "backup for $my_date is ok"
         fi 
     ;;
+    init)
+         restic -r $REPO init
+    ;;
 	*)
-		echo "Usage is start|clean|check|list"
+		echo "Usage is init|start|clean|check|list|checkbackup"
 	;;	
 esac	
