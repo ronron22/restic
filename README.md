@@ -32,6 +32,12 @@ export RESTIC_PASSWORD='truc'
 
 ### exploitation
 
+#### initialisation 
+
+```bash
+restic -r $REPO init 
+```
+
 #### backup
 
 ```bash
@@ -90,6 +96,8 @@ restic on /mnt type fuse (ro,nosuid,nodev,relatime,user_id=0,group_id=0)
 ```
 
 ### Les tags
+
+A venir
 
 ## Rest server
 
