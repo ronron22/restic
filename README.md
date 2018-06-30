@@ -105,7 +105,7 @@ https://github.com/restic/rest-server
 docker exec -it rest_server sh
 ```
 
-## FàQ
+## FAQ
 
 ### lock
 
@@ -119,3 +119,11 @@ storage ID 6b3d5fa2
 ~# restic -r $REPO unlock
 ```
 
+### config not found
+
+```bash
+unable to open config file: Stat: stat /data/restic/config: no such file or directory
+Is there a repository at the following location?
+```
+
+Use "restic -r $REPO init" for initializing directory tree on restic backend
