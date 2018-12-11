@@ -135,3 +135,10 @@ Is there a repository at the following location?
 ```
 
 Use "restic -r $REPO init" for initializing directory tree on restic backend
+
+### restic et docker
+
+```bash
+docker pull restic/restic
+docker run --rm -ti restic/restic
+```
